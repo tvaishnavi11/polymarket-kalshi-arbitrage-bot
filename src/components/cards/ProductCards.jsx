@@ -35,7 +35,7 @@ const ProductCards = ({ filters, gender = "men" }) => {
 
     if (filters.category !== "all") {
       filtered = filtered.filter(
-        (product) => product.category === filters.category
+        (product) => product.category === filters.category,
       );
     }
 

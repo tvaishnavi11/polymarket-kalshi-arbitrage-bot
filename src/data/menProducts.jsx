@@ -155,7 +155,7 @@ export const menProducts = [
       .href,
     hoverImage: new URL(
       `../assets/images/men/product-10-2.jpg`,
-      import.meta.url
+      import.meta.url,
     ).href,
     description: "Soft cotton top",
     details: "100% Cotton, machine washable, made in Vietnam",
@@ -173,7 +173,7 @@ export const menProducts = [
       .href,
     hoverImage: new URL(
       `../assets/images/men/product-11-2.jpg`,
-      import.meta.url
+      import.meta.url,
     ).href,
     description: "Textured cotton sweater",
     details: "100% Cotton, machine washable, made in Italy",
@@ -191,7 +191,7 @@ export const menProducts = [
       .href,
     hoverImage: new URL(
       `../assets/images/men/product-12-2.jpg`,
-      import.meta.url
+      import.meta.url,
     ).href,
     description: "Basic heavyweight t-shirt",
     details: "100% Cotton, machine washable, made in USA",
@@ -209,7 +209,7 @@ export const menProducts = [
       .href,
     hoverImage: new URL(
       `../assets/images/men/product-13-2.jpg`,
-      import.meta.url
+      import.meta.url,
     ).href,
     description: "Round neck sweatshirt",
     details: "100% Cotton, machine washable, made in Turkey",
@@ -227,7 +227,7 @@ export const menProducts = [
       .href,
     hoverImage: new URL(
       `../assets/images/men/product-14-2.jpg`,
-      import.meta.url
+      import.meta.url,
     ).href,
     description: "Textured knit t-shirt",
     details: "100% Cotton, machine washable, made in Bangladesh",
@@ -245,7 +245,7 @@ export const menProducts = [
       .href,
     hoverImage: new URL(
       `../assets/images/men/product-15-2.jpg`,
-      import.meta.url
+      import.meta.url,
     ).href,
     description: "Round neck sweatshirt",
     details: "100% Cotton, machine washable, made in China",
@@ -263,7 +263,7 @@ export const menProducts = [
       .href,
     hoverImage: new URL(
       `../assets/images/men/product-16-2.jpg`,
-      import.meta.url
+      import.meta.url,
     ).href,
     description: "Towel material sweatshirt",
     details: "100% Cotton, machine washable, made in Mexico",
@@ -281,7 +281,7 @@ export const menProducts = [
       .href,
     hoverImage: new URL(
       `../assets/images/men/product-17-2.jpg`,
-      import.meta.url
+      import.meta.url,
     ).href,
     description: "Crew neck sweatshirt",
     details: "100% Cotton, machine washable, made in India",
@@ -299,7 +299,7 @@ export const menProducts = [
       .href,
     hoverImage: new URL(
       `../assets/images/men/product-18-2.jpg`,
-      import.meta.url
+      import.meta.url,
     ).href,
     description: "Textured jacquard t-shirt",
     details: "100% Cotton, machine washable, made in Italy",
@@ -317,7 +317,7 @@ export const menProducts = [
       .href,
     hoverImage: new URL(
       `../assets/images/men/product-19-2.jpg`,
-      import.meta.url
+      import.meta.url,
     ).href,
     description: "Heat reactive sweatshirt",
     details:
@@ -336,7 +336,7 @@ export const menProducts = [
       .href,
     hoverImage: new URL(
       `../assets/images/men/product-20-2.jpg`,
-      import.meta.url
+      import.meta.url,
     ).href,
     description: "Rib neck t-shirt",
     details: "100% Cotton, machine washable, made in Portugal",
@@ -354,7 +354,7 @@ export const menProducts = [
       .href,
     hoverImage: new URL(
       `../assets/images/men/product-21-2.jpg`,
-      import.meta.url
+      import.meta.url,
     ).href,
     description: "Structured soft sweater",
     details: "100% Cotton, machine washable, made in Spain",
@@ -372,7 +372,7 @@ export const menProducts = [
       .href,
     hoverImage: new URL(
       `../assets/images/men/product-22-2.jpg`,
-      import.meta.url
+      import.meta.url,
     ).href,
     description: "Worn vintage tank top",
     details: "100% Cotton, machine washable, made in USA",
@@ -390,7 +390,7 @@ export const menProducts = [
       .href,
     hoverImage: new URL(
       `../assets/images/men/product-23-2.jpg`,
-      import.meta.url
+      import.meta.url,
     ).href,
     description: "Contrast print sweater",
     details: "100% Cotton, machine washable, made in France",
@@ -408,7 +408,7 @@ export const menProducts = [
       .href,
     hoverImage: new URL(
       `../assets/images/men/product-24-2.jpg`,
-      import.meta.url
+      import.meta.url,
     ).href,
     description: "Vintage faded denim t-shirt",
     details: "100% Cotton with denim finish, machine washable, made in Japan",

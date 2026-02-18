@@ -574,3 +574,5 @@ For questions about this project or collaboration opportunities, please reach ou
 ---
 
 _Built with React, Tailwind CSS, and Vite_
+#   S h o p i n g _ p l a t f o r m  
+ 

@@ -39,13 +39,13 @@ export const CartProvider = ({ children }) => {
     setNotification({ show: true, message, type });
     setTimeout(
       () => setNotification({ show: false, message: "", type: "success" }),
-      3000
+      3000,
     );
   };
 
   const addToCart = (product, selectedSize, quantity = 1) => {
     const existingItem = cartItems.find(
-      (item) => item.id === product.id && item.size === selectedSize
+      (item) => item.id === product.id && item.size === selectedSize,
     );
 
     if (existingItem) {
@@ -53,8 +53,8 @@ export const CartProvider = ({ children }) => {
         prev.map((item) =>
           item.id === product.id && item.size === selectedSize
             ? { ...item, quantity: item.quantity + quantity }
-            : item
-        )
+            : item,
+        ),
       );
     } else {
       const newItem = {
@@ -76,7 +76,7 @@ export const CartProvider = ({ children }) => {
 
   const removeFromCart = (itemId, size) => {
     setCartItems((prev) =>
-      prev.filter((item) => !(item.id === itemId && item.size === size))
+      prev.filter((item) => !(item.id === itemId && item.size === size)),
     );
   };
 
@@ -109,13 +109,14 @@ export const CartProvider = ({ children }) => {
       prev.map((item) =>
         item.id === itemId && item.size === size
           ? { ...item, quantity: newQuantity }
-          : item
-      )
+          : item,
+      ),
     );
   };
 
   const clearCart = () => {
     setCartItems([]);
+    localStorage.removeItem("cart");
   };
 
   const getTotalItems = () => {
@@ -125,7 +126,7 @@ export const CartProvider = ({ children }) => {
   const getTotalPrice = () => {
     return cartItems.reduce(
       (total, item) => total + item.price * item.quantity,
-      0
+      0,
     );
   };
 
