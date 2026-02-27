@@ -12,13 +12,16 @@ export default function ResetPassword() {
     e.preventDefault();
 
     try {
-      const res = await fetch(`http://localhost:5000/api/auth/reset/${token}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const res = await fetch(
+        `https://poject-fullstack.onrender.com/api/auth/reset/${token}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ password }),
         },
-        body: JSON.stringify({ password }),
-      });
+      );
 
       const data = await res.json();
 

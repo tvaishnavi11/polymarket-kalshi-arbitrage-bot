@@ -85,7 +85,7 @@ export default function Checkout() {
       }
 
       const { data } = await axios.post(
-        "http://localhost:5000/api/payment/create-order",
+        "https://poject-fullstack.onrender.com/api/payment/create-order",
         { amount: total },
       );
 
@@ -105,7 +105,7 @@ export default function Checkout() {
         handler: async function (response) {
           try {
             const verifyRes = await axios.post(
-              "http://localhost:5000/api/payment/verify",
+              "https://poject-fullstack.onrender.com/api/payment/verify",
               response,
             );
 
