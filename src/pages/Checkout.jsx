@@ -80,7 +80,7 @@ export default function Checkout() {
       if (!isLoaded) return alert("Razorpay SDK failed to load!");
 
       const { data } = await axios.post(
-        "https://poject-fullstack.onrender.com/api/payment/create-order",
+        "https://backend-j5ya.onrender.com/api/payment/create-order",
         { amount: total },
       );
 
@@ -96,7 +96,7 @@ export default function Checkout() {
         handler: async function (response) {
           try {
             const verifyRes = await axios.post(
-              "https://poject-fullstack.onrender.com/api/payment/verify",
+              "https://backend-j5ya.onrender.com/api/payment/verify",
               response,
             );
             if (verifyRes.data.success) placeOrder("Paid");

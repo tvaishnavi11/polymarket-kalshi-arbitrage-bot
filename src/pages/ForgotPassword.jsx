@@ -11,7 +11,7 @@ export default function ForgotPassword() {
     setLoading(true);
 
     const res = await fetch(
-      "https://poject-fullstack.onrender.com/api/auth/forgot-password",
+      "https://backend-j5ya.onrender.com/api/auth/forgot-password",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },

@@ -22,7 +22,7 @@ const Signup = () => {
 
     try {
       const response = await fetch(
-        "https://poject-fullstack.onrender.com/api/auth/signup",
+        "https://backend-j5ya.onrender.com/api/auth/signup",
         {
           method: "POST",
           headers: {

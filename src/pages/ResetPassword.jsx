@@ -13,7 +13,7 @@ export default function ResetPassword() {
 
     try {
       const res = await fetch(
-        `https://poject-fullstack.onrender.com/api/auth/reset/${token}`,
+        `https://backend-j5ya.onrender.com/api/auth/reset/${token}`,
         {
           method: "POST",
           headers: {

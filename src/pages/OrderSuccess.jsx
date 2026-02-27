@@ -75,7 +75,7 @@ export default function OrderSuccess() {
       setEmailStatus("sending");
 
       const response = await axios.post(
-        "http://localhost:5000/api/order/send-confirmation",
+        "https://backend-j5ya.onrender.com/api/order/send-confirmation",
         {
           orderId,
           userEmail,
