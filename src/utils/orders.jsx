@@ -4,29 +4,47 @@ export default function Orders() {
   const [orders, setOrders] = useState([]);
   const [openId, setOpenId] = useState(null);
 
+  // ✅ Load orders on mount
   useEffect(() => {
-    const saved = JSON.parse(localStorage.getItem("orders")) || [];
-    setOrders(saved.reverse());
+    const savedOrders = JSON.parse(localStorage.getItem("orders")) || [];
+    setOrders(savedOrders.reverse());
   }, []);
 
-  const updateOrders = (updated) => {
-    setOrders(updated);
-    localStorage.setItem("orders", JSON.stringify(updated));
+  // ✅ Update orders helper
+  const updateOrders = (updatedOrders) => {
+    setOrders(updatedOrders);
+    localStorage.setItem("orders", JSON.stringify(updatedOrders));
   };
 
+  // ✅ Cancel Order (only change status)
   const cancelOrder = (id) => {
-    const updated = orders.map((o) =>
-      o.id === id ? { ...o, status: "Cancelled" } : o,
+    const updated = orders.map((order) =>
+      order.id === id ? { ...order, status: "Cancelled" } : order,
     );
+
     updateOrders(updated);
   };
 
+  // ✅ Delete Order Permanently
+  const deleteOrder = (id) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to permanently delete this order?",
+    );
+
+    if (!confirmDelete) return;
+
+    const updated = orders.filter((order) => order.id !== id);
+    updateOrders(updated);
+  };
+
+  // ✅ Estimated Delivery (5 days)
   const getEstimatedDelivery = (createdAt) => {
     const date = new Date(createdAt);
     date.setDate(date.getDate() + 5);
     return date.toDateString();
   };
 
+  // ✅ Progress Percentage
   const getProgress = (status) => {
     switch (status) {
       case "Placed":
@@ -37,15 +55,18 @@ export default function Orders() {
         return 75;
       case "Delivered":
         return 100;
+      case "Cancelled":
+        return 0;
       default:
         return 10;
     }
   };
 
+  // ✅ If no orders
   if (!orders.length) {
     return (
       <div className="min-h-screen flex justify-center items-center">
-        <h2>No Orders Found 🛍</h2>
+        <h2 className="text-xl font-semibold">No Orders Found 🛍</h2>
       </div>
     );
   }
@@ -68,16 +89,24 @@ export default function Orders() {
               </p>
             </div>
 
-            <span className="bg-green-100 text-green-600 px-4 py-1 rounded-full">
+            <span
+              className={`px-4 py-1 rounded-full text-sm font-medium ${
+                order.status === "Cancelled"
+                  ? "bg-red-100 text-red-600"
+                  : order.status === "Delivered"
+                    ? "bg-green-100 text-green-600"
+                    : "bg-yellow-100 text-yellow-600"
+              }`}
+            >
               {order.status}
             </span>
           </div>
 
           {/* Items */}
           <div className="mt-4 space-y-4">
-            {order.items.map((item, i) => (
+            {order.items?.map((item, index) => (
               <div
-                key={i}
+                key={index}
                 className="flex items-center gap-4 border p-3 rounded-lg"
               >
                 <img
@@ -87,7 +116,7 @@ export default function Orders() {
                 />
                 <div className="flex-1">
                   <p className="font-medium">{item.name}</p>
-                  <p>Qty: {item.quantity}</p>
+                  <p className="text-sm text-gray-500">Qty: {item.quantity}</p>
                 </div>
                 <p className="font-semibold">₹ {item.price * item.quantity}</p>
               </div>
@@ -101,32 +130,43 @@ export default function Orders() {
           </div>
 
           {/* Buttons */}
-          <div className="mt-4 flex justify-end gap-3">
+          <div className="mt-4 flex justify-end gap-3 flex-wrap">
+            {/* Cancel */}
             {order.status !== "Delivered" && order.status !== "Cancelled" && (
               <button
                 onClick={() => cancelOrder(order.id)}
-                className="bg-red-500 text-white px-4 py-2 rounded-lg"
+                className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
               >
                 Cancel
               </button>
             )}
 
+            {/* Track */}
             <button
               onClick={() => setOpenId(openId === order.id ? null : order.id)}
-              className="bg-black text-white px-4 py-2 rounded-lg"
+              className="bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800"
             >
               Track Order
             </button>
 
+            {/* Invoice */}
             <button
               onClick={() => window.open(`/invoice/${order.id}`, "_blank")}
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg"
+              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
             >
               Invoice
             </button>
+
+            {/* Delete */}
+            <button
+              onClick={() => deleteOrder(order.id)}
+              className="bg-gray-700 text-white px-4 py-2 rounded-lg hover:bg-gray-800"
+            >
+              Delete
+            </button>
           </div>
 
-          {/* Tracking Section */}
+          {/* Tracking Bar */}
           {openId === order.id && (
             <div className="mt-4">
               <div className="w-full bg-gray-200 h-3 rounded-full">

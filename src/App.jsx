@@ -49,7 +49,7 @@ function App() {
             <Route path="login" element={<Login />} />
             <Route path="signup" element={<Signup />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/reset-password/:token" element={<ResetPassword />} />
+            <Route path="/reset/:token" element={<ResetPassword />} />
             <Route path="invoice/:id" element={<Invoice />} />
             <Route path="support" element={<Support />} />
             <Route path="/verify-email" element={<VerifyEmail />} />

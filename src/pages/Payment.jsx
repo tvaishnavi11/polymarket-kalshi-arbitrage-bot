@@ -17,30 +17,35 @@ const Payment = () => {
     }
   }, [cartItems, navigate]);
 
-  const handlePayment = (e) => {
-    e.preventDefault();
+  const placeOrder = (paymentStatus) => {
+    if (!user || !user.email) {
+      alert("User email not found. Please login again.");
+      return;
+    }
 
-    const newOrder = {
-      orderId: Date.now(),
-      userId: user.id,
+    const orderId = "ORD-" + Date.now();
+
+    const order = {
+      id: orderId,
+      userEmail: user.email, // ✅ ADD THIS
+      userName: user.name || "", // optional
+      address: selected,
       items: cartItems,
-      totalAmount: getTotalPrice(),
+      subtotal,
+      shipping,
+      total,
       paymentMethod,
-      status: "Placed",
+      status: paymentStatus,
       createdAt: new Date().toISOString(),
     };
 
-    createOrder(newOrder);
+    const orders = JSON.parse(localStorage.getItem("orders")) || [];
+    localStorage.setItem("orders", JSON.stringify([...orders, order]));
+    localStorage.setItem("latestOrder", JSON.stringify(order));
+
     clearCart();
-
-    showNotification(
-      `Payment successful via ${paymentMethod.toUpperCase()} (Demo)`,
-      "success",
-    );
-
     navigate("/order-success");
   };
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black flex items-center justify-center px-4">
       <div className="w-full max-w-4xl bg-white rounded-xl shadow-2xl grid md:grid-cols-2 overflow-hidden">

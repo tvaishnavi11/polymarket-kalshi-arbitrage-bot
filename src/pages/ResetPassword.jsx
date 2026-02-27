@@ -1,35 +1,56 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
-export function ResetPassword() {
+export default function ResetPassword() {
   const { token } = useParams();
+  const navigate = useNavigate();
+
   const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
 
-  const submit = async () => {
-    await fetch("http://localhost:5000/api/auth/reset-password", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ token, password }),
-    });
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-    alert("Password Updated");
+    try {
+      const res = await fetch(`http://localhost:5000/api/auth/reset/${token}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ password }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setMessage(data.message);
+        return;
+      }
+
+      setMessage("Password reset successful!");
+      setTimeout(() => navigate("/login"), 2000);
+    } catch (error) {
+      setMessage("Server error");
+    }
   };
 
   return (
-    <div className="h-screen flex justify-center items-center">
-      <div className="w-96 p-6 border rounded">
-        <h2 className="text-xl mb-3">Reset Password</h2>
+    <div style={{ padding: "40px" }}>
+      <h2>Reset Password</h2>
+
+      <form onSubmit={handleSubmit}>
         <input
           type="password"
-          placeholder="New password"
+          placeholder="Enter new password"
+          value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="border p-2 w-full mb-3"
+          required
         />
-        <button onClick={submit} className="bg-black text-white p-2 w-full">
-          Reset Password
-        </button>
-      </div>
+
+        <button type="submit">Reset Password</button>
+      </form>
+
+      <p>{message}</p>
     </div>
   );
 }
-export default ResetPassword;
