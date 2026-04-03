@@ -10,7 +10,7 @@
 
 ### **Two venues. Same event. Different prices. Your bot captures the gap.**
 
-*Bitcoin 15-minute up/down markets — monitored, cross-referenced, and arbitraged automatically.*
+*Bitcoin 15-minute up/down markets - monitored, cross-referenced, and arbitraged automatically.*
 
 </div>
 
