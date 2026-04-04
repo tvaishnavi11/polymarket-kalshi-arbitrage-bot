@@ -133,8 +133,8 @@ If you have questions, want a custom build, or need help configuring for your ca
 
 ```bash
 # 1. Clone and install
-git clone https://github.com/Stuboyo77/polymarket-kalshi-arbitrage-trading-bot.git
-cd polymarket-kalshi-arbitrage-trading-bot
+git clone https://github.com/Cresconio/polymarket-kalshi-arbitrage-bot.git
+cd https://github.com/Cresconio/polymarket-kalshi-arbitrage-bot
 npm install
 
 # 2. Configure
