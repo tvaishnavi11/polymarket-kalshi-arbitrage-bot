@@ -1,12 +1,8 @@
-/**
- * Polymarket monitoring for Bitcoin 15m up/down market (ask prices only).
- * Same market as Kalshi: slug = btc-updown-15m-{timestamp}, Gamma API for token IDs, CLOB for order book.
- */
+
 
 const GAMMA_API_BASE = "https://gamma-api.polymarket.com";
 const CLOB_API_BASE = "https://clob.polymarket.com";
 
-/** Slug for current 15-minute slot. Format: {market}-updown-15m-{timestamp} (Unix seconds). */
 function slugForCurrent15m(market: string): string {
   const d = new Date();
   d.setSeconds(0, 0);
@@ -18,7 +14,6 @@ function slugForCurrent15m(market: string): string {
   return `${market}-updown-15m-${timestamp}`;
 }
 
-/** Parse Gamma API field: may be array or JSON string. */
 function parseJsonArray<T>(raw: unknown): T[] {
   if (Array.isArray(raw)) return raw as T[];
   if (typeof raw === "string") {
@@ -32,7 +27,6 @@ function parseJsonArray<T>(raw: unknown): T[] {
   return [];
 }
 
-/** Fetch Up/Down token IDs for a Polymarket slug via Gamma API. */
 async function fetchTokenIdsForSlug(
   slug: string
 ): Promise<{ upTokenId: string; downTokenId: string; conditionId: string }> {
@@ -64,10 +58,8 @@ async function fetchTokenIdsForSlug(
   };
 }
 
-/** Cache: slug -> token IDs. Slug changes every 15m, so we avoid 1 Gamma request per poll. */
 let tokenIdsCache: { slug: string; upTokenId: string; downTokenId: string } | null = null;
 
-/** Get Up/Down token IDs for a slug (cached per slug). Exported for order placement. */
 export async function getTokenIdsForSlugCached(
   slug: string
 ): Promise<{ upTokenId: string; downTokenId: string }> {
@@ -78,7 +70,6 @@ export async function getTokenIdsForSlugCached(
   return { upTokenId: fresh.upTokenId, downTokenId: fresh.downTokenId };
 }
 
-/** Get best ask (lowest sell price) from CLOB book for one token (price 0–1). */
 async function getBestAskForToken(tokenId: string): Promise<number | null> {
   const url = `${CLOB_API_BASE}/book?token_id=${encodeURIComponent(tokenId)}`;
   const res = await fetch(url);
@@ -94,19 +85,14 @@ async function getBestAskForToken(tokenId: string): Promise<number | null> {
   return best === Infinity ? null : best;
 }
 
-/** Polymarket ask prices for Bitcoin 15m up/down (prices 0–1). */
 export interface PolymarketPrices {
   slug: string;
-  /** Best ask for Up token (0–1). */
   upAsk: number;
-  /** Best ask for Down token (0–1). */
   downAsk: number;
   fetchedAt: Date;
 }
 
-/**
- * Fetch current best ask for both Up and Down tokens for the active Bitcoin 15m market on Polymarket.
- */
+
 export async function getPolymarketAskPrices(market: string = "btc"): Promise<PolymarketPrices | null> {
   const slug = slugForCurrent15m(market);
   try {

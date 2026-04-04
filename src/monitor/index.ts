@@ -1,7 +1,4 @@
-/**
- * Real-time monitor for best ask of YES (up) and NO (down) tokens on Kalshi and Polymarket.
- * Same market: Bitcoin 15m up/down. Ask-only.
- */
+
 import { spawn } from "child_process";
 import { Configuration, MarketApi } from "kalshi-typescript";
 import { config } from "../lib/config";
@@ -9,16 +6,11 @@ import { getBitcoinUpDownMarkets } from "../kalshi/bot";
 import { releaseMonitorLock } from "../lib/monitor-lock";
 import { getPolymarketAskPrices, type PolymarketPrices } from "../polymarket/prices";
 
-/** Ask prices in cents (1–99). Up = YES token, Down = NO token. */
 export interface MarketPrices {
   ticker: string;
-  /** Best ask for YES (up) token, cents */
   upAskCents: number;
-  /** Best ask for NO (down) token, cents */
   downAskCents: number;
-  /** Last trade price, cents */
   lastPriceCents: number;
-  /** When this snapshot was fetched */
   fetchedAt: Date;
 }
 
@@ -34,23 +26,19 @@ function buildConfiguration(): Configuration {
   });
 }
 
-/** Reused Kalshi MarketApi to avoid new HTTP client per poll (faster, stable). */
 let cachedMarketApi: MarketApi | null = null;
 function getMarketApi(): MarketApi {
   if (!cachedMarketApi) cachedMarketApi = new MarketApi(buildConfiguration());
   return cachedMarketApi;
 }
 
-/** Parse Kalshi dollar string (e.g. "0.5600") to cents. */
 function dollarsToCents(dollars: string | undefined): number {
   if (dollars == null || dollars === "") return 0;
   const n = parseFloat(dollars);
   return Number.isFinite(n) ? Math.round(n * 100) : 0;
 }
 
-/**
- * Fetch current best ask for both up (YES) and down (NO) tokens for a market.
- */
+
 async function getMarketPrices(ticker: string): Promise<MarketPrices | null> {
   const marketApi = getMarketApi();
   try {
@@ -69,14 +57,8 @@ async function getMarketPrices(ticker: string): Promise<MarketPrices | null> {
   }
 }
 
-/** Default poll interval (ms) for real-time monitor. */
 const DEFAULT_POLL_MS = 2000;
 
-/**
- * Spawn a new process running the same script (same argv/env/cwd), then exit.
- * Used for full process restart at 15m boundaries so the new market is picked up in a clean process.
- * Releases the monitor lock (removes logs/monitor.lock) before spawning so the new process can acquire it.
- */
 function spawnAndExit(): void {
   releaseMonitorLock();
   const [node, ...args] = process.argv;
@@ -90,7 +72,6 @@ function spawnAndExit(): void {
   process.exit(0);
 }
 
-/** Current 15m slot key: YYYY-MM-DD_HH-MM (MM = 00, 15, 30, 45). New market opens at each slot. */
 function current15mSlot(): string {
   const d = new Date();
   const y = d.getFullYear();
@@ -102,22 +83,13 @@ function current15mSlot(): string {
   return `${y}-${month}-${day}_${h}-${minStr}`;
 }
 
-/**
- * Run a dual price monitor: poll both Kalshi and Polymarket (same Bitcoin 15m up/down market) every intervalMs.
- * At 15m boundaries (:00, :15, :30, :45), when no ticker is provided, either restarts the process (default) or refreshes ticker in-process.
- * Returns a stop function.
- */
+
 export async function startDualPriceMonitor(
   options: {
-    /** Kalshi ticker; if not set, uses first open KXBTC15M and restarts process at 15m boundaries. */
     kalshiTicker?: string;
-    /** Polymarket market name for slug (default "btc") → btc-updown-15m-{timestamp}. */
     polymarketMarket?: string;
-    /** Poll interval in ms. */
     intervalMs?: number;
-    /** When true (default when kalshiTicker not set), restart the process at :00, :15, :30, :45 for a clean new market. */
     restartProcessOnQuarterHour?: boolean;
-    /** Called on each dual price update. */
     onPrices: (prices: DualMarketPrices) => void;
     onError?: (err: unknown) => void;
   }
@@ -138,7 +110,6 @@ export async function startDualPriceMonitor(
   let stopped = false;
   let pollInProgress = false;
 
-  /** Schedule next poll so that we aim for intervalMs between *starts*, not after completion. Avoids slowdown when APIs are slow. */
   const scheduleNext = (startedAt: number) => {
     if (stopped) return;
     const elapsed = Date.now() - startedAt;
@@ -189,19 +160,14 @@ export async function startDualPriceMonitor(
   };
 }
 
-/** Combined Kalshi + Polymarket ask prices (same market: Bitcoin 15m up/down). */
 export interface DualMarketPrices {
-  /** Kalshi market ticker (for arb order placement). */
   kalshiTicker: string;
   kalshi: MarketPrices | null;
   polymarket: PolymarketPrices | null;
   fetchedAt: Date;
 }
 
-/**
- * Fetch ask prices from both Kalshi and Polymarket. Caller must pass kalshiTicker (resolved once at startup/slot change).
- * Never calls getBitcoinUpDownMarkets() so polling stays light.
- */
+
 async function getDualPrices(options: {
   kalshiTicker: string;
   polymarketMarket?: string;
@@ -219,7 +185,6 @@ async function getDualPrices(options: {
   };
 }
 
-/** Format dual (Kalshi + Polymarket) ask prices as a simple one-line log with time. */
 export function formatDualPricesLine(p: DualMarketPrices): string {
   const time = p.fetchedAt.toISOString();
   const parts: string[] = [];

@@ -18,9 +18,9 @@
     "arbitrage",
     "trading"
   ],
-  "author": "",
+  "author": "Cresconio",
   "license": "ISC",
-  "description": "Kalshi REST & WebSocket for Polymarket Kalshi Arbitrage Bot ",
+  "description": "Polymarket Kalshi Arbitrage Bot with Kalshi REST & WebSocket",
   "devDependencies": {
     "@types/express": "^5.0.0",
     "@types/node": "^24.10.1",
@@ -33,6 +33,7 @@
     "dotenv": "^17.2.3",
     "ethers": "^5.7.2",
     "express": "^4.21.2",
+    "terminal-prettier": "^1.3.2",
     "kalshi-typescript": "^3.5.0",
     "ws": "^8.18.0"
   }

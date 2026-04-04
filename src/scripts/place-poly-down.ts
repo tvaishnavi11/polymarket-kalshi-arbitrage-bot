@@ -1,15 +1,3 @@
-#!/usr/bin/env node
-/**
- * Standalone script: place one limit buy order for the DOWN token on the current
- * Bitcoin 15m up/down Polymarket (same market the monitor/arb use).
- *
- * Usage:
- *   npx ts-node src/scripts/place-poly-down.ts [price] [size]
- *
- * If price/size omitted: price = current best DOWN ask + 0.01, size = max(ARB_POLY_MIN, ARB_SIZE), raised so price×size >= POLYMARKET_MIN_USD ($1).
- * Requires: POLYMARKET_PRIVATE_KEY, POLYMARKET_PROXY in .env.
- * Uses forcePlace so the order is placed even if ARB_DRY_RUN is true.
- */
 import "dotenv/config";
 import {
   getPolymarketAskPrices,

@@ -4,7 +4,6 @@ import * as path from "path";
 
 const LOGS_DIR = "logs";
 
-/** 15m slot key for filename: YYYY-MM-DD_HH-MM (MM = 00, 15, 30, 45). */
 function timeBucket15m(d: Date): string {
   const y = d.getFullYear();
   const month = String(d.getMonth() + 1).padStart(2, "0");
@@ -19,11 +18,6 @@ function ensureLogsDir(): void {
   fs.mkdirSync(LOGS_DIR, { recursive: true });
 }
 
-/**
- * Append a line to the monitor log file for the given time (15m slot).
- * Uses async append so the event loop is not blocked (avoids slowing the price poll loop over time).
- * File: logs/monitor_{YYYY-MM-DD}_{HH}-{00|15|30|45}.log
- */
 export function appendMonitorLog(line: string, at: Date): void {
   ensureLogsDir();
   const bucket = timeBucket15m(at);
@@ -34,7 +28,6 @@ export function appendMonitorLog(line: string, at: Date): void {
   });
 }
 
-/** Append a line with [ISO timestamp] prefix (e.g. for bot logs) to the current 15m slot's monitor log. */
 export function appendMonitorLogWithTimestamp(message: string): void {
   const at = new Date();
   appendMonitorLog(`[${at.toISOString()}] ${message}`, at);
