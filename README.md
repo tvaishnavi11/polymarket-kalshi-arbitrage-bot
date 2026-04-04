@@ -282,7 +282,7 @@ No. The bot holds both sides. One always pays out. You profit from the pricing g
 The arb logic places both orders as close to simultaneously as possible. If one fails, the retry logic kicks in. For production use, monitor your open positions after each signal.
 
 **How much capital do I need?**
-The bot works at any size, but larger positions capture more absolute profit per signal. Most users start with $500–$2,000 across both venues to validate fills and slippage before scaling.
+The bot works at any size, but larger positions capture more absolute profit per signal. Most users start with $500-$2,000 across both venues to validate fills and slippage before scaling.
 
 **Can I run it 24/7 on a server?**
 Yes - and that's the recommended setup. Bitcoin 15m markets run around the clock. The monitor auto-restarts at quarter-hour boundaries and maintains a lock file to prevent duplicate instances. A simple VPS with Node and PM2 is enough.
